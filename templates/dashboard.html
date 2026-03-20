@@ -11,12 +11,15 @@
     </p>
 
     <div style="margin-top:18px; display:flex; flex-wrap:wrap; gap:12px;">
-        <a class="btn btn-primary" href="{{ url_for('wallet') }}">💼 Wallet</a>
-        <a class="btn btn-secondary" href="{{ url_for('trade') }}">🎯 Trade</a>
-        <a class="btn btn-primary" href="{{ url_for('terminal') }}">📊 Terminal</a>
-        <a class="btn btn-secondary" href="{{ url_for('market') }}">📈 Live Market</a>
-        <a class="btn" style="background:#22263a; color:#fff;" href="{{ url_for('logout') }}">🚪 Logout</a>
-    </div>
+    <a class="btn btn-primary" href="{{ url_for('wallet') }}">💼 Wallet</a>
+    <a class="btn btn-secondary" href="{{ url_for('trade') }}">🎯 Trade</a>
+    <a class="btn btn-primary" href="{{ url_for('terminal') }}">📊 Terminal</a>
+    <a class="btn btn-secondary" href="{{ url_for('market') }}">📈 Live Market</a>
+
+    <!-- ⭐ NEW SURVEYS BUTTON -->
+    <a class="btn btn-primary" href="{{ url_for('surveys_dashboard') }}">📝 Surveys</a>
+</div>
+
 
     <h2 style="margin-top:30px;">Trading Mode</h2>
 

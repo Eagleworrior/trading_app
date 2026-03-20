@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="survey-complete">
+  <div class="complete-panel">
+    <h1 class="neon-title">SURVEY COMPLETE</h1>
+    <p class="subtitle">You finished: <strong>{{ survey.title }}</strong></p>
+    <p class="reward">You earned <span>{{ survey.payout }} CR</span></p>
+    <p class="balance">New Balance: <strong>{{ balance }} CR</strong></p>
+
+    <a href="{{ url_for('surveys_dashboard') }}" class="btn-primary">Back to Surveys</a>
+    <a href="{{ url_for('dashboard') }}" class="btn-secondary">Main Dashboard</a>
+  </div>
+
+  <div class="survey-character big">
+    <div class="character-card">
+      <div class="character-figure swing"></div>
+      <p class="character-text">
+        “Nice work. Ready for the next challenge?”
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

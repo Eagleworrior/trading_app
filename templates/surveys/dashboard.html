@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="survey-dashboard">
+  <div class="survey-header">
+    <h1 class="neon-title">SURVEY ARENA</h1>
+    <p class="subtitle">Complete surveys. Level up. Earn credits.</p>
+
+    <div class="balance-card">
+      <span class="label">Survey Balance</span>
+      <span class="amount">{{ balance }} CR</span>
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="btn-back">← Back to Main Dashboard</a>
+  </div>
+
+  <div class="survey-grid">
+    {% for s in surveys %}
+    <div class="survey-card level-{{ s.level|lower }}">
+      <div class="survey-level">{{ s.level }} LEVEL</div>
+      <h2>{{ s.title }}</h2>
+      <p class="payout">Reward: <span>{{ s.payout }} CR</span></p>
+      <p class="meta">Questions: {{ s.questions|length }}</p>
+
+      <a href="{{ url_for('take_survey', survey_id=s.id) }}" class="btn-start">
+        Start Survey
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+

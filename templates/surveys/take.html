@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="survey-play">
+  <div class="top-bar">
+    <a href="{{ url_for('surveys_dashboard') }}" class="btn-back">← Surveys Dashboard</a>
+    <div class="balance-pill">Balance: {{ balance }} CR</div>
+  </div>
+
+  <div class="survey-panel">
+    <h1 class="neon-title">{{ survey.title }}</h1>
+    <p class="level-tag">{{ survey.level }} LEVEL • Reward: {{ survey.payout }} CR</p>
+
+    <form method="POST" class="survey-form">
+      {% for q in survey.questions %}
+      <div class="question-block">
+        <h3>Q{{ loop.index }}. {{ q.q }}</h3>
+        <div class="choices">
+          {% for c in q.choices %}
+          <label class="choice-pill">
+            <input type="radio" name="q{{ loop.parent.index }}" value="{{ c }}" required>
+            <span>{{ c }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn-complete">Complete Survey & Earn</button>
+    </form>
+  </div>
+
+  <div class="survey-character">
+    <div class="character-card">
+      <div class="character-figure swing"></div>
+      <p class="character-text">
+        “Let’s see how sharp you are today.”
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

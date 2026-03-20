@@ -32,3 +32,226 @@ body{
 .badge{background:var(--glass-2);padding:6px 8px;border-radius:8px;color:var(--muted);font-weight:600}
 .alert{background:linear-gradient(90deg,#ffefc2,#ffd1c2);color:#2b2b2b;padding:10px;border-radius:8px}
 
+/* ---------------- SURVEY SYSTEM STYLES ---------------- */
+
+.survey-dashboard,
+.survey-play,
+.survey-complete {
+  padding: 2rem;
+  background: radial-gradient(circle at top, #111827, #020617);
+  color: #e5e7eb;
+  min-height: 100vh;
+}
+
+.neon-title {
+  font-size: 2.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  text-shadow: 0 0 10px #0ea5e9, 0 0 25px #22d3ee;
+}
+
+.subtitle {
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+.balance-card,
+.balance-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: #022c22;
+  font-weight: 700;
+}
+
+.btn-back,
+.btn-start,
+.btn-complete,
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-back {
+  background: transparent;
+  color: #f97316;
+  border: 1px solid #f97316;
+}
+
+.btn-start {
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  color: #f9fafb;
+}
+
+.btn-complete,
+.btn-primary {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: #022c22;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #e5e7eb;
+  border: 1px solid #6b7280;
+}
+
+.survey-grid {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.survey-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #020617, #111827);
+  border: 1px solid #1f2937;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+.survey-card .survey-level {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+}
+
+.survey-card .payout span {
+  color: #22c55e;
+  font-weight: 700;
+}
+
+.level-beginner { border-top: 3px solid #22c55e; }
+.level-intermediate { border-top: 3px solid #f97316; }
+.level-advanced { border-top: 3px solid #ef4444; }
+
+.survey-panel {
+  max-width: 720px;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #020617, #111827);
+  border: 1px solid #1f2937;
+}
+
+.question-block {
+  margin-bottom: 1.5rem;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.choice-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: #020617;
+  border: 1px solid #374151;
+  cursor: pointer;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+}
+
+.choice-pill input {
+  display: none;
+}
+
+.choice-pill:hover {
+  border-color: #38bdf8;
+}
+
+.choice-pill input:checked + span {
+  color: #22c55e;
+}
+
+/* Animated businessman in black suit */
+
+.survey-character {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+}
+
+.survey-character.big {
+  position: static;
+  margin-top: 2rem;
+}
+
+.character-card {
+  width: 220px;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  border: 1px solid #1f2937;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+.character-figure {
+  width: 120px;
+  height: 160px;
+  margin: 0 auto 0.75rem;
+  border-radius: 999px 999px 40px 40px;
+  background: linear-gradient(180deg, #020617 0%, #020617 40%, #111827 40%, #020617 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Head */
+.character-figure::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #facc15;
+}
+
+/* Tie */
+.character-figure::after {
+  content: "";
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 40px;
+  background: linear-gradient(180deg, #ef4444, #b91c1c);
+  clip-path: polygon(50% 0, 100% 30%, 70% 100%, 30% 100%, 0 30%);
+}
+
+/* Swing animation */
+.character-figure.swing {
+  animation: swing 2.4s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+.character-text {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+

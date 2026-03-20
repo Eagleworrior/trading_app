@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block topbar %}
+<h2 style="color:#0ff; margin:0;">Wallet</h2>
+{% endblock %}
+
+{% block content %}
+<div class="wallet-container">
+
+    <!-- Deposit Section -->
+    <div class="wallet-box">
+        <h3>Deposit Funds</h3>
+
+        <p>To fund your real trading account, send money using:</p>
+
+        <div class="deposit-info">
+            <p><strong>Paybill:</strong> 880100</p>
+            <p><strong>Account Number:</strong> 1004508555</p>
+        </div>
+
+        <p>After sending the money, enter the amount below:</p>
+
+        <form action="/submit_deposit" method="POST">
+            <label>Amount Deposited</label>
+            <input type="number" name="amount" required min="1">
+
+            <button type="submit">Confirm Deposit</button>
+        </form>
+    </div>
+
+    <!-- Withdrawal Section -->
+    <div class="wallet-box">
+        <h3>Withdraw Funds</h3>
+
+        <form action="/submit_withdraw" method="POST">
+            <label>Amount to Withdraw</label>
+            <input type="number" name="amount" required min="1">
+
+            <label>Phone Number (M-Pesa)</label>
+            <input type="text" name="phone" required placeholder="07XXXXXXXX">
+
+            <button type="submit">Submit Withdrawal</button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+

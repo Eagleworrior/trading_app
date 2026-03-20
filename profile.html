@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block topbar %}
+<h2 style="color:#0ff; margin:0;">Profile</h2>
+{% endblock %}
+
+{% block content %}
+<div class="order-box">
+    <h3>User Profile</h3>
+
+    <p><strong>Username:</strong> {{ current_user.username }}</p>
+    <p><strong>Email:</strong> {{ current_user.email }}</p>
+
+    <h3 style="margin-top:20px;">Change Password</h3>
+    <form action="/change_password" method="POST">
+        <label>Current Password</label>
+        <input type="password" name="current_password" required>
+
+        <label>New Password</label>
+        <input type="password" name="new_password" required>
+
+        <button type="submit">Update Password</button>
+    </form>
+</div>
+{% endblock %}
+

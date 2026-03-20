@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Market Overview</h2>
+  <table class="table">
+    <thead><tr><th>Symbol</th><th>Name</th><th>Type</th><th>Last Price</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for inst in instruments %}
+      <tr>
+        <td><strong>{{ inst.symbol }}</strong></td>
+        <td class="small">{{ inst.name }}</td>
+        <td class="badge">{{ inst.type }}</td>
+        <td><span class="small">Open</span></td>
+        <td><a class="btn-ghost" href="{{ url_for('instrument_view', symbol=inst.symbol) }}">Open</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

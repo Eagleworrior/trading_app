@@ -1,0 +1,169 @@
+/* GLOBAL */
+body {
+    margin: 0;
+    background: #0d0d0d;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #111;
+    height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 1px solid #222;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #0ff;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px;
+    color: #ccc;
+    text-decoration: none;
+    border-bottom: 1px solid #222;
+}
+
+.sidebar a:hover {
+    background: #0ff;
+    color: black;
+}
+
+/* MAIN CONTENT */
+.main {
+    margin-left: 220px;
+    padding: 20px;
+    width: calc(100% - 220px);
+}
+
+/* TOP BAR */
+.top-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: #111;
+    padding: 15px;
+    border-bottom: 1px solid #222;
+    gap: 20px;
+}
+
+/* TOP BAR BACK BUTTON */
+.top-back-btn {
+    padding: 10px 20px;
+    background: #0ff;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 9999;
+}
+
+.top-back-btn:hover {
+    background: #0cc;
+}
+
+/* BALANCE BOXES */
+.balance-box {
+    background: #222;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.toggle-btn {
+    padding: 10px 20px;
+    background: #0ff;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* LAYOUT ROW */
+.content-row {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* CHART */
+.chart-box {
+    flex: 3;
+    margin-right: 20px;
+    background: #111;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* ORDER PANEL */
+.order-box {
+    flex: 1;
+    background: #111;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.order-box h3 {
+    margin-top: 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #222;
+    border: 1px solid #333;
+    color: white;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #0ff;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #0cc;
+}
+
+/* MARKET LIST */
+.market-list {
+    background: #111;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.market-table th, .market-table td {
+    padding: 12px;
+    border-bottom: 1px solid #222;
+    text-align: left;
+}
+
+.market-table th {
+    background: #0ff;
+    color: black;
+}
+
+.market-table tr:hover {
+    background: #222;
+}
+

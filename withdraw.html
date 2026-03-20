@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block topbar %}
+<h2 style="color:#0ff; margin:0;">Withdraw</h2>
+{% endblock %}
+
+{% block content %}
+<div class="order-box">
+    <h3>Withdraw Request</h3>
+
+    <form action="/submit_withdraw" method="POST">
+        <label>Amount to Withdraw</label>
+        <input type="number" name="amount" required min="1">
+
+        <label>Phone Number (M-Pesa)</label>
+        <input type="text" name="phone" required placeholder="07XXXXXXXX">
+
+        <button type="submit">Submit Withdrawal</button>
+    </form>
+</div>
+{% endblock %}
+

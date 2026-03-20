@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block topbar %}
+<h2 style="color:#0ff; margin:0;">Deposit</h2>
+{% endblock %}
+
+{% block content %}
+<div class="order-box">
+    <h3>Deposit Instructions</h3>
+
+    <p>To fund your real trading account, send money using:</p>
+
+    <div class="balance-box" style="margin-top: 10px;">
+        <strong>Paybill:</strong> 880100<br>
+        <strong>Account Number:</strong> 1004508555
+    </div>
+
+    <p style="margin-top: 15px;">After sending the money, enter the amount below:</p>
+
+    <form action="/submit_deposit" method="POST">
+        <label>Amount Deposited</label>
+        <input type="number" name="amount" required min="1">
+
+        <button type="submit">Confirm Deposit</button>
+    </form>
+</div>
+{% endblock %}
+

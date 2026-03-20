@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - EAGLEX{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h1>EAGLEX Trading Dashboard</h1>
+    <span class="tag">Multi‑Asset • Real & Demo • Neon UI</span>
+
+    <p style="margin-top:18px; font-size:16px; color:#cfd3ff;">
+        Choose where you want to go:
+    </p>
+
+    <div style="margin-top:18px; display:flex; flex-wrap:wrap; gap:12px;">
+        <a class="btn btn-primary" href="{{ url_for('wallet') }}">💼 Wallet</a>
+        <a class="btn btn-secondary" href="{{ url_for('trade') }}">🎯 Trade</a>
+        <a class="btn btn-primary" href="{{ url_for('terminal') }}">📊 Terminal</a>
+        <a class="btn btn-secondary" href="{{ url_for('market') }}">📈 Live Market</a>
+        <a class="btn" style="background:#22263a; color:#fff;" href="{{ url_for('logout') }}">🚪 Logout</a>
+    </div>
+
+    <h2 style="margin-top:30px;">Trading Mode</h2>
+
+    <div style="display:flex; gap:12px; margin-top:12px;">
+        <a class="btn btn-primary" href="{{ url_for('set_mode', mode='real') }}">💵 Real Mode</a>
+        <a class="btn btn-secondary" href="{{ url_for('set_mode', mode='demo') }}">🎮 Demo Mode</a>
+    </div>
+
+    <p style="margin-top:15px; font-size:18px; color:#00eaff;">
+        Current Mode:
+        <b style="color:#00ff88;">
+            {{ session.get('trade_mode', 'demo')|upper }}
+        </b>
+    </p>
+</div>
+{% endblock %}
+

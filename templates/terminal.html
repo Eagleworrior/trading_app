@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EAGLEX Trading Terminal</title>
+    <style>
+        body {
+            margin:0;
+            padding:0;
+            background:
+                radial-gradient(circle at top, #1b2a5a 0, #050814 45%, #02030a 100%);
+            color:#e5e7ff;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        .page-wrap {
+            padding:20px 30px 40px;
+        }
+        .top-bar {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:15px;
+        }
+        .back-btn {
+            padding:8px 18px;
+            border-radius:999px;
+            border:1px solid #00eaff;
+            background:linear-gradient(135deg,#04101c,#062637);
+            color:#e5f9ff;
+            font-weight:600;
+            cursor:pointer;
+            box-shadow:0 0 14px rgba(0,234,255,0.6);
+        }
+        .back-btn:hover {
+            box-shadow:0 0 20px rgba(0,234,255,0.9);
+            transform:translateY(-1px);
+        }
+        h1 {
+            margin:0;
+            font-size:26px;
+            letter-spacing:0.08em;
+            background:linear-gradient(90deg,#00eaff,#7b5cff,#ff4fa3,#ffcf4f);
+            -webkit-background-clip:text;
+            color:transparent;
+        }
+        .subtitle {
+            font-size:13px;
+            margin-top:4px;
+            color:#cfd3ff;
+        }
+        .subtitle span.green {
+            color:#00ffd0;
+            font-weight:600;
+        }
+        .subtitle span.pink {
+            color:#ff4fa3;
+            font-weight:600;
+        }
+        .subtitle span.gold {
+            color:#ffcf4f;
+            font-weight:600;
+        }
+        .panel {
+            margin-top:18px;
+            padding:14px 16px;
+            border-radius:14px;
+            border:1px solid rgba(0,234,255,0.25);
+            background:
+                linear-gradient(145deg,rgba(7,13,32,0.96),rgba(4,8,20,0.99));
+            box-shadow:0 0 30px rgba(0,0,0,0.85);
+        }
+        .label {
+            font-size:13px;
+            color:#9fa4ff;
+            margin-bottom:4px;
+        }
+        select, input[type="number"] {
+            max-width:220px;
+            padding:6px 8px;
+            border-radius:8px;
+            border:1px solid #00eaff;
+            background:#050b18;
+            color:#f5f7ff;
+        }
+        #balanceDisplay {
+            font-weight:700;
+            font-size:14px;
+            color:#00ffd0;
+            text-shadow:0 0 10px rgba(0,255,208,0.7);
+        }
+        #chartCanvas {
+            background:
+                radial-gradient(circle at top,#202a63 0,#050814 55%,#02030a 100%);
+            border-radius:16px;
+            border:1px solid #1b2340;
+            box-shadow:0 0 40px rgba(0,0,0,0.9);
+        }
+        .btn {
+            padding:9px 18px;
+            border-radius:999px;
+            border:none;
+            cursor:pointer;
+            font-weight:600;
+            font-size:14px;
+            letter-spacing:0.03em;
+        }
+        .btn-buy {
+            background:linear-gradient(135deg,#00ff9c,#00c977);
+            color:#02110a;
+            box-shadow:0 0 18px rgba(0,255,156,0.7);
+        }
+        .btn-sell {
+            background:linear-gradient(135deg,#ff4f7a,#ff3366);
+            color:#2b020b;
+            box-shadow:0 0 18px rgba(255,79,122,0.7);
+        }
+        .btn-warning {
+            background:linear-gradient(135deg,#ffcf4f,#ff9f1c);
+            color:#1b1204;
+            box-shadow:0 0 16px rgba(255,207,79,0.7);
+        }
+        .btn:hover {
+            transform:translateY(-1px);
+            filter:brightness(1.06);
+        }
+        #activeTradesBox {
+            font-size:13px;
+        }
+        #activeTradesBox p {
+            margin:4px 0;
+        }
+        .trade-buy {
+            color:#00ff9c;
+        }
+        .trade-sell {
+            color:#ff4f7a;
+        }
+        .trade-time {
+            color:#ffcf4f;
+        }
+        .trade-amount {
+            color:#00ffd0;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrap">
+
+    <div class="top-bar">
+        <button class="back-btn" onclick="window.location.href='/wallet';">
+            ⬅ Back to Wallet
+        </button>
+        <div>
+            <h1>EAGLEX TRADING TERMINAL</h1>
+            <p class="subtitle">
+                <span class="green">Neon visual prediction engine</span> •
+                Multi‑pattern candlesticks •
+                <span class="gold">Demo / Real balance</span> •
+                <span class="pink">No real money</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div style="display:flex; flex-wrap:wrap; gap:18px; align-items:flex-end;">
+            <div>
+                <div class="label">Mode</div>
+                <select id="modeSelect">
+                    <option value="demo">Demo</option>
+                    <option value="real">Real</option>
+                </select>
+            </div>
+
+            <div>
+                <div class="label">Trade Duration</div>
+                <select id="timeSelect">
+                    <option value="5">5 seconds</option>
+                    <option value="15">15 seconds</option>
+                    <option value="30">30 seconds</option>
+                    <option value="60">1 minute</option>
+                    <option value="300">5 minutes</option>
+                </select>
+            </div>
+
+            <div>
+                <div class="label">Trade Amount</div>
+                <input id="tradeAmount" type="number" value="10" min="1">
+            </div>
+
+            <div>
+                <div class="label">Candle Style</div>
+                <select id="candleStyle">
+                    <option value="classic">Classic</option>
+                    <option value="neon">Neon Glow</option>
+                    <option value="hollow">Hollow</option>
+                    <option value="thick">Thick Body</option>
+                    <option value="heikin">Heikin‑Ashi (visual)</option>
+                </select>
+            </div>
+
+            <div style="margin-left:auto;">
+                <div class="label">Account Balance</div>
+                <span id="balanceDisplay">Balance: $10000.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+        <canvas id="chartCanvas" width="950" height="340"></canvas>
+    </div>
+
+    <div class="panel" style="margin-top:18px; display:flex; gap:12px; align-items:center;">
+        <button id="buyBtn" class="btn btn-buy">PLACE PREDICTION: UP ↑</button>
+        <button id="sellBtn" class="btn btn-sell">PLACE PREDICTION: DOWN ↓</button>
+        <button id="cancelTradeBtn" class="btn btn-warning">Cancel Last Prediction ✖</button>
+        <span style="font-size:12px; color:#9fa4ff; margin-left:10px;">
+            Up to <span style="color:#00ffd0;">5</span> active predictions •
+            Cancel refunds stake •
+            <span style="color:#ff4f7a;">Loss keeps deduction</span>
+        </span>
+    </div>
+
+    <div class="panel" style="margin-top:18px;">
+        <div class="label" style="margin-bottom:6px; color:#7b8cff;">Active Predictions</div>
+        <div id="activeTradesBox" style="color:#00eaff;">No active predictions.</div>
+    </div>
+
+</div>
+
+<script>
+// =========================
+// BALANCES
+// =========================
+let demoBalance = 10000;
+let realBalance = 0;
+
+const modeSelect = document.getElementById('modeSelect');
+const balanceDisplay = document.getElementById('balanceDisplay');
+const timeSelect = document.getElementById('timeSelect');
+
+function updateBalanceDisplay() {
+    const mode = modeSelect.value;
+    balanceDisplay.textContent =
+        "Balance: $" + (mode === "demo" ? demoBalance : realBalance).toFixed(2);
+}
+
+// =========================
+// MULTI‑TRADE SYSTEM
+// =========================
+let activeTrades = [];
+const maxTrades = 5;
+
+function startTrade(direction) {
+    if (activeTrades.length >= maxTrades) {
+        alert("You can only have 5 active predictions at once.");
+        return;
+    }
+
+    const amount = parseFloat(document.getElementById("tradeAmount").value);
+    const mode = modeSelect.value;
+
+    if (!amount || amount <= 0) return alert("Enter a valid amount.");
+
+    if (mode === "demo") {
+        if (demoBalance < amount) return alert("Insufficient demo balance.");
+        demoBalance -= amount;
+    } else {
+        if (realBalance < amount) return alert("Insufficient real balance.");
+        realBalance -= amount;
+    }
+
+    updateBalanceDisplay();
+
+    const trade = {
+        id: Date.now(),
+        direction,
+        amount,
+        mode,
+        timeLeft: parseInt(timeSelect.value),
+        entryPrice: lastPrice,
+        active: true
+    };
+
+    activeTrades.push(trade);
+    renderTrades();
+}
+
+function cancelTrade() {
+    if (activeTrades.length === 0) return alert("No active predictions.");
+
+    const trade = activeTrades.pop();
+
+    if (trade.mode === "demo") demoBalance += trade.amount;
+    else realBalance += trade.amount;
+
+    updateBalanceDisplay();
+    renderTrades();
+}
+
+function finishTrades() {
+    activeTrades.forEach(t => {
+        if (!t.active) return;
+
+        t.timeLeft--;
+
+        if (t.timeLeft <= 0) {
+            t.active = false;
+
+            const win = Math.random() > 0.5;
+            if (win) {
+                if (t.mode === "demo") demoBalance += t.amount * 2;
+                else realBalance += t.amount * 2;
+            }
+
+            updateBalanceDisplay();
+        }
+    });
+
+    activeTrades = activeTrades.filter(t => t.active);
+    renderTrades();
+}
+
+function renderTrades() {
+    const box = document.getElementById("activeTradesBox");
+
+    if (activeTrades.length === 0) {
+        box.innerHTML = "<p>No active predictions.</p>";
+        return;
+    }
+
+    box.innerHTML = activeTrades.map(t => `
+        <p>
+            <span style="color:#7b8cff;">#${t.id}</span> •
+            ${t.direction === "buy"
+                ? '<span style="color:#00ff9c;">UP ↑</span>'
+                : '<span style="color:#ff4f7a;">DOWN ↓</span>'}
+            • <span style="color:#00ffd0;">$${t.amount}</span>
+            • <span style="color:#ffcf4f;">${t.timeLeft}s</span>
+        </p>
+    `).join("");
+}
+
+// =========================
+// REALISTIC LIVE CANDLE ENGINE
+// =========================
+let candles = [];
+let lastPrice = 100;
+
+// preload candles
+for (let i = 0; i < 80; i++) generateCandle();
+
+function generateCandle() {
+    const trend = (Math.random() - 0.5) * 1.2;
+    const body = (Math.random() * 3 + 1) * (1 + trend);
+    const dir = Math.random() > 0.5 ? 1 : -1;
+
+    const open = lastPrice;
+    let close = lastPrice + dir * body;
+
+    let high = Math.max(open, close) + Math.random() * 3;
+    let low = Math.min(open, close) - Math.random() * 3;
+
+    // random patterns
+    const p = Math.random();
+    if (p < 0.10) close = open + (Math.random() - 0.5) * 0.3; // doji
+    if (p < 0.20) low -= Math.random() * 6 + 3;               // hammer
+    if (p < 0.30) high += Math.random() * 6 + 3;              // inverted hammer
+    if (p < 0.40) close = open + dir * (Math.random() * 8);   // long body
+
+    lastPrice = close;
+
+    candles.push({ open, close, high, low });
+    if (candles.length > 120) candles.shift();
+}
+
+// =========================
+// BEAUTIFUL NEON CHART
+// =========================
+function drawChart() {
+    const canvas = document.getElementById("chartCanvas");
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // soft neon background
+    const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    bg.addColorStop(0, "rgba(0,255,255,0.05)");
+    bg.addColorStop(1, "rgba(0,0,0,0.4)");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (candles.length === 0) return;
+
+    const style = document.getElementById("candleStyle").value;
+    const w = 10;
+
+    const prices = candles.flatMap(c => [c.open, c.close, c.high, c.low]);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const range = max - min || 1;
+
+    const priceToY = p =>
+        canvas.height - ((p - min) / range) * (canvas.height - 20) - 5;
+
+    // draw entry lines
+    activeTrades.forEach(t => {
+        const y = priceToY(t.entryPrice);
+        ctx.strokeStyle = t.direction === "buy"
+            ? "rgba(0,255,156,0.7)"
+            : "rgba(255,79,122,0.7)";
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    });
+
+    // draw candles
+    candles.forEach((c, i) => {
+        const x = i * (w + 3);
+
+        const up = c.close >= c.open;
+        const color = up ? "#00ff9c" : "#ff4f7a";
+
+        const o = priceToY(c.open);
+        const cl = priceToY(c.close);
+        const h = priceToY(c.high);
+        const l = priceToY(c.low);
+
+        ctx.shadowBlur = style === "neon" ? 12 : 0;
+        ctx.shadowColor = style === "neon" ? color : "transparent";
+
+        if (style === "hollow") {
+            ctx.strokeStyle = color;
+            ctx.strokeRect(x, Math.min(o, cl), w, Math.abs(cl - o));
+        } else if (style === "thick") {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, Math.min(o, cl), w + 3, Math.abs(cl - o));
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, Math.min(o, cl), w, Math.abs(cl - o));
+        }
+
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(x + w / 2, h);
+        ctx.lineTo(x + w / 2, l);
+        ctx.stroke();
+    });
+}
+
+// =========================
+// MAIN LOOP
+// =========================
+setInterval(() => {
+    generateCandle();
+    drawChart();
+    finishTrades();
+}, 900);
+
+// =========================
+// EVENT LISTENERS
+// =========================
+document.getElementById("buyBtn").addEventListener("click", () => startTrade("buy"));
+document.getElementById("sellBtn").addEventListener("click", () => startTrade("sell"));
+document.getElementById("cancelTradeBtn").addEventListener("click", cancelTrade);
+modeSelect.addEventListener("change", updateBalanceDisplay);
+
+updateBalanceDisplay();
+</script>
+</body>
+</html>
+

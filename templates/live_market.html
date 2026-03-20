@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Live Market - EAGLEX{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h2>📈 Live Market</h2>
+    <p style="font-size:16px; color:#cfd3ff;">
+        Real‑time prices will appear here once APIs are connected.
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:18px; margin-top:20px;">
+
+        <!-- Crypto -->
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>BTC/USD</h3>
+            <p style="font-size:22px; color:#00eaff;">$43,200</p>
+            <span class="tag">Crypto</span>
+        </div>
+
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>ETH/USD</h3>
+            <p style="font-size:22px; color:#00eaff;">$2,850</p>
+            <span class="tag">Crypto</span>
+        </div>
+
+        <!-- Forex -->
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>EUR/USD</h3>
+            <p style="font-size:22px; color:#00ff88;">1.0850</p>
+            <span class="tag">Forex</span>
+        </div>
+
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>GBP/USD</h3>
+            <p style="font-size:22px; color:#00ff88;">1.2730</p>
+            <span class="tag">Forex</span>
+        </div>
+
+        <!-- Indices -->
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>NAS100</h3>
+            <p style="font-size:22px; color:#ff6bff;">17,850</p>
+            <span class="tag">Index</span>
+        </div>
+
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>SPX500</h3>
+            <p style="font-size:22px; color:#ff6bff;">4,950</p>
+            <span class="tag">Index</span>
+        </div>
+
+        <!-- Commodities -->
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>GOLD</h3>
+            <p style="font-size:22px; color:#ffb86c;">$2,030</p>
+            <span class="tag">Commodity</span>
+        </div>
+
+        <div class="panel" style="width:260px; text-align:center;">
+            <h3>OIL</h3>
+            <p style="font-size:22px; color:#ffb86c;">$78.50</p>
+            <span class="tag">Commodity</span>
+        </div>
+
+    </div>
+
+    <a class="btn" style="background:#22263a; color:#fff; margin-top:20px;" href="{{ url_for('dashboard') }}">⬅ Back</a>
+</div>
+{% endblock %}
+

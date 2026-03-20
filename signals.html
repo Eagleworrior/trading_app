@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block topbar %}
+<h2 style="color:#0ff; margin:0;">Signals</h2>
+{% endblock %}
+
+{% block content %}
+<div class="market-list">
+    <h3>Trading Signals</h3>
+
+    <table class="market-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Symbol</th>
+                <th>Direction</th>
+                <th>Entry</th>
+                <th>TP</th>
+                <th>SL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sig in signals %}
+            <tr>
+                <td>{{ sig.created_at }}</td>
+                <td>{{ sig.symbol }}</td>
+                <td>{{ sig.direction }}</td>
+                <td>{{ sig.entry }}</td>
+                <td>{{ sig.tp }}</td>
+                <td>{{ sig.sl }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

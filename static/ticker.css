@@ -1,0 +1,30 @@
+/* Ticker container */
+#live-ticker {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    background: #0d0f17;
+    padding: 10px 0;
+    border-bottom: 2px solid #1f2333;
+    box-shadow: 0 0 20px rgba(0,255,255,0.2);
+}
+
+/* Scrolling animation */
+#live-ticker .ticker-item {
+    display: inline-block;
+    margin-right: 40px;
+    font-size: 18px;
+    color: #00eaff;
+    animation: scroll-left 12s linear infinite;
+}
+
+#live-ticker .ticker-item strong {
+    color: #00ff88;
+}
+
+/* Keyframes */
+@keyframes scroll-left {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(-100%); }
+}
+

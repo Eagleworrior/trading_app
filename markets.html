@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block topbar %}
+<h2 style="color:#0ff; margin:0;">Live Markets</h2>
+{% endblock %}
+
+{% block content %}
+<div class="market-list">
+
+    <h3>Market Prices</h3>
+
+    <table class="market-table">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Bid</th>
+                <th>Ask</th>
+                <th>Spread</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inst in instruments %}
+            <tr>
+                <td>{{ inst.symbol }}</td>
+                <td>{{ inst.bid }}</td>
+                <td>{{ inst.ask }}</td>
+                <td>{{ "%.5f"|format(inst.ask - inst.bid) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
+

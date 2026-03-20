@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <h2>{{ instrument.symbol }}</h2>
+      <div class="small">{{ instrument.name }} • {{ instrument.type }}</div>
+    </div>
+    <div class="meta">
+      <div class="badge">Last: <strong>{{ last_price }}</strong></div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px">
+    <form method="post">
+      <div class="form-row">
+        <select name="side" class="input">
+          <option value="buy">Buy</option>
+          <option value="sell">Sell</option>
+        </select>
+        <select name="type" class="input">
+          <option value="market">Market</option>
+          <option value="limit">Limit</option>
+          <option value="stop">Stop</option>
+        </select>
+        <input name="qty" class="input" placeholder="Quantity" required>
+        <input name="price" class="input" placeholder="Price (limit/stop)">
+      </div>
+      <div class="form-row">
+        <input name="tp" class="input" placeholder="Take Profit">
+        <input name="sl" class="input" placeholder="Stop Loss">
+        <button class="btn" type="submit">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

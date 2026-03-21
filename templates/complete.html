@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Survey Completed</title>
+    <title>Level Complete</title>
     <style>
         body {
             margin: 0;
@@ -21,48 +21,48 @@
             box-shadow: 0 0 40px rgba(0, 255, 200, 0.6);
         }
         h1 {
-            font-size: 32px;
+            font-size: 38px;
             background: linear-gradient(90deg, #00ff88, #00eaff);
             -webkit-background-clip: text;
             color: transparent;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         p {
-            font-size: 16px;
+            font-size: 18px;
             color: #ccccff;
-            margin: 6px 0;
+            margin-bottom: 25px;
         }
-        .btn {
+        a.main-btn, a.back-btn {
             display: inline-block;
-            margin: 10px 8px 0;
-            padding: 12px 26px;
-            font-size: 15px;
+            margin: 8px 10px;
+            padding: 12px 28px;
+            font-size: 16px;
             border-radius: 25px;
             text-decoration: none;
             font-weight: bold;
             color: #000;
         }
-        .btn-main {
+        a.main-btn {
             background: linear-gradient(45deg, #ffcc00, #ff8800);
             box-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
         }
-        .btn-back {
+        a.back-btn {
             background: linear-gradient(45deg, #ccccff, #00eaff);
             box-shadow: 0 0 15px rgba(0, 200, 255, 0.7);
         }
-        .btn:hover {
+        a:hover {
             transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1>Survey Completed!</h1>
-        <p>You earned {{ survey.payout }} USDT from <strong>{{ survey.title }}</strong>.</p>
-        <p>Your new survey balance is: {{ balance }} USDT.</p>
+        <h1>Level {{ level }} Complete!</h1>
+        <p>You’ve unlocked Level {{ next_level }}.</p>
 
-        <a class="btn btn-main" href="/surveys">More Surveys</a>
-        <a class="btn btn-back" href="/dashboard">⬅ Back to Dashboard</a>
+        <a class="main-btn" href="/surveys/level/{{ next_level }}">Go to Level {{ next_level }}</a>
+        <a class="back-btn" href="/">⬅ Back to Dashboard</a>
+
     </div>
 </body>
 </html>

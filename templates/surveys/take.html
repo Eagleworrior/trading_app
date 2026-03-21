@@ -1,41 +1,127 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="survey-play">
-  <div class="top-bar">
-    <a href="{{ url_for('surveys_dashboard') }}" class="btn-back">← Surveys Dashboard</a>
-    <div class="balance-pill">Balance: {{ balance }} CR</div>
-  </div>
-
-  <div class="survey-panel">
-    <h1 class="neon-title">{{ survey.title }}</h1>
-    <p class="level-tag">{{ survey.level }} LEVEL • Reward: {{ survey.payout }} CR</p>
-
-    <form method="POST" class="survey-form">
-      {% for q in survey.questions %}
-      <div class="question-block">
-        <h3>Q{{ loop.index }}. {{ q.q }}</h3>
-        <div class="choices">
-          {% for c in q.choices %}
-          <label class="choice-pill">
-            <input type="radio" name="q{{ loop.parent.index }}" value="{{ c }}" required>
-            <span>{{ c }}</span>
-          </label>
-          {% endfor %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ survey.title }} - Survey</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #ff0080, #000010);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 95%;
+            max-width: 900px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            padding: 30px 40px;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.4);
+        }
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .top span:first-child {
+            color: #00eaff;
+        }
+        .top span:last-child {
+            color: #ffcc00;
+        }
+        h1 {
+            font-size: 26px;
+            margin: 0 0 20px;
+            background: linear-gradient(90deg, #ffcc00, #00ff88);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .question-block {
+            margin-bottom: 20px;
+            padding: 15px 18px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .question-text {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .choices label {
+            display: block;
+            margin: 4px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .choices input {
+            margin-right: 6px;
+        }
+        .submit-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 20px;
+            border: none;
+            background: linear-gradient(90deg, #00eaff, #00ff88);
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 200, 0.7);
+        }
+        .submit-btn:hover {
+            transform: scale(1.03);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ccccff, #00eaff);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <span>{{ survey.title }}</span>
+            <span>Reward: {{ survey.payout }} USDT</span>
         </div>
-      </div>
-      {% endfor %}
-      <button type="submit" class="btn-complete">Complete Survey & Earn</button>
-    </form>
-  </div>
 
-  <div class="survey-character">
-    <div class="character-card">
-      <div class="character-figure swing"></div>
-      <p class="character-text">
-        “Let’s see how sharp you are today.”
-      </p>
+        <h1>{{ survey.title }} Survey</h1>
+
+        <form method="POST">
+            {% for q in survey.questions %}
+            <div class="question-block">
+                <div class="question-text">{{ loop.index }}. {{ q.q }}</div>
+                <div class="choices">
+                    {% for choice in q.choices %}
+                    <label>
+                        <input type="radio" name="q{{ loop.index }}" value="{{ choice }}">
+
+                        {{ choice }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+            <button class="submit-btn" type="submit">Submit & Claim Reward</button>
+        </form>
+
+        <a class="back-link" href="/surveys">⬅ Back to Surveys</a>
     </div>
-  </div>
-</div>
-{% endblock %}
+</body>
+</html>
 

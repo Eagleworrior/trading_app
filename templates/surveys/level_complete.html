@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Level Complete!</title>
+
+    <style>
+        body {
+            background: #111;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Money Rain */
+        .money-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bill {
+            position: absolute;
+            top: -100px;
+            width: 80px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Celebration Lady */
+        .celebration-lady {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            animation: popIn 1s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🎉 Level Complete! 🎉</h1>
+
+<!-- Money Rain -->
+<div class="money-rain">
+    {% for i in range(40) %}
+        <img src="{{ url_for('static', filename='images/money2.png') }}" class="bill" style="left: {{ (i * 2.5) % 100 }}%;">
+    {% endfor %}
+</div>
+
+<!-- Celebration Lady -->
+<img src="{{ url_for('static', filename='images/love.jpg') }}"
+     alt="Celebration Lady"
+     class="celebration-lady">
+
+</body>
+</html>
+

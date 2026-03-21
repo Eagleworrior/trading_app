@@ -1,32 +1,118 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="survey-dashboard">
-  <div class="survey-header">
-    <h1 class="neon-title">SURVEY ARENA</h1>
-    <p class="subtitle">Complete surveys. Level up. Earn credits.</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Surveys Center</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #1a0033, #000010);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wrapper {
+            width: 95%;
+            max-width: 1000px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .title {
+            font-size: 32px;
+            background: linear-gradient(90deg, #00eaff, #ff00ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .balance {
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #00ff88, #00eaff);
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 255, 200, 0.6);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 18px;
+            padding: 20px 22px;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.3);
+        }
+        .card h2 {
+            margin: 0 0 8px;
+            font-size: 20px;
+            color: #ffffff;
+        }
+        .meta {
+            font-size: 13px;
+            color: #ccccff;
+            margin-bottom: 10px;
+        }
+        .payout {
+            font-size: 14px;
+            color: #00ff88;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ffcc00, #ff8800);
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+            box-shadow: 0 0 15px rgba(255, 200, 0, 0.7);
+        }
+        .btn:hover {
+            transform: scale(1.03);
+        }
+        .back {
+            margin-top: 25px;
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ccccff, #00eaff);
+            color: #000;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back:hover {
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="title">📝 Surveys Center</div>
+            <div class="balance">Survey Balance: {{ balance }} USDT</div>
+        </div>
 
-    <div class="balance-card">
-      <span class="label">Survey Balance</span>
-      <span class="amount">{{ balance }} CR</span>
+        <div class="grid">
+            {% for s in surveys %}
+            <div class="card">
+                <h2>{{ s.title }}</h2>
+                <div class="meta">Level: {{ s.level }}</div>
+                <div class="payout">Reward: {{ s.payout }} USDT</div>
+                <a class="btn" href="/surveys/{{ s.id }}">Start Survey</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a class="back" href="/dashboard">⬅ Back to Dashboard</a>
     </div>
-
-    <a href="{{ url_for('dashboard') }}" class="btn-back">← Back to Main Dashboard</a>
-  </div>
-
-  <div class="survey-grid">
-    {% for s in surveys %}
-    <div class="survey-card level-{{ s.level|lower }}">
-      <div class="survey-level">{{ s.level }} LEVEL</div>
-      <h2>{{ s.title }}</h2>
-      <p class="payout">Reward: <span>{{ s.payout }} CR</span></p>
-      <p class="meta">Questions: {{ s.questions|length }}</p>
-
-      <a href="{{ url_for('take_survey', survey_id=s.id) }}" class="btn-start">
-        Start Survey
-      </a>
-    </div>
-    {% endfor %}
-  </div>
-</div>
-{% endblock %}
+</body>
+</html>
 

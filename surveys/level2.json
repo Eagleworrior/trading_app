@@ -1,0 +1,276 @@
+{
+    "title": "Level 2 - General",
+    "theme": 5,
+    "questions": [
+        {
+            "question": "What is the largest mammal?",
+            "options": [
+                "Blue Whale",
+                "Elephant",
+                "Giraffe"
+            ],
+            "answer": "Blue Whale"
+        },
+        {
+            "question": "What is the capital of UK?",
+            "options": [
+                "London",
+                "Manchester",
+                "Liverpool"
+            ],
+            "answer": "London"
+        },
+        {
+            "question": "Which continent is Egypt in?",
+            "options": [
+                "Africa",
+                "Asia",
+                "Europe"
+            ],
+            "answer": "Africa"
+        },
+        {
+            "question": "Who wrote 'Hamlet'?",
+            "options": [
+                "Shakespeare",
+                "Dickens",
+                "Homer"
+            ],
+            "answer": "Shakespeare"
+        },
+        {
+            "question": "What is the fastest land animal?",
+            "options": [
+                "Cheetah",
+                "Lion",
+                "Horse"
+            ],
+            "answer": "Cheetah"
+        },
+        {
+            "question": "What is the largest country?",
+            "options": [
+                "Russia",
+                "China",
+                "USA"
+            ],
+            "answer": "Russia"
+        },
+        {
+            "question": "What is the capital of Kenya?",
+            "options": [
+                "Nairobi",
+                "Mombasa",
+                "Kisumu"
+            ],
+            "answer": "Nairobi"
+        },
+        {
+            "question": "What is the tallest mountain?",
+            "options": [
+                "Everest",
+                "K2",
+                "Kilimanjaro"
+            ],
+            "answer": "Everest"
+        },
+        {
+            "question": "How many days are in a leap year?",
+            "options": [
+                "366",
+                "365",
+                "364"
+            ],
+            "answer": "366"
+        },
+        {
+            "question": "Which planet has rings?",
+            "options": [
+                "Saturn",
+                "Mars",
+                "Earth"
+            ],
+            "answer": "Saturn"
+        },
+        {
+            "question": "Which organ pumps blood?",
+            "options": [
+                "Heart",
+                "Lungs",
+                "Kidneys"
+            ],
+            "answer": "Heart"
+        },
+        {
+            "question": "What is the capital of Japan?",
+            "options": [
+                "Tokyo",
+                "Osaka",
+                "Kyoto"
+            ],
+            "answer": "Tokyo"
+        },
+        {
+            "question": "What gas do plants breathe in?",
+            "options": [
+                "Carbon Dioxide",
+                "Oxygen",
+                "Nitrogen"
+            ],
+            "answer": "Carbon Dioxide"
+        },
+        {
+            "question": "Which gas do humans breathe?",
+            "options": [
+                "Oxygen",
+                "Carbon Dioxide",
+                "Nitrogen"
+            ],
+            "answer": "Oxygen"
+        },
+        {
+            "question": "What is the largest ocean?",
+            "options": [
+                "Pacific",
+                "Atlantic",
+                "Indian"
+            ],
+            "answer": "Pacific"
+        },
+        {
+            "question": "What is the boiling point of water?",
+            "options": [
+                "100\u00b0C",
+                "90\u00b0C",
+                "80\u00b0C"
+            ],
+            "answer": "100\u00b0C"
+        },
+        {
+            "question": "Which planet is known as the Red Planet?",
+            "options": [
+                "Mars",
+                "Venus",
+                "Jupiter"
+            ],
+            "answer": "Mars"
+        },
+        {
+            "question": "What is the largest continent?",
+            "options": [
+                "Asia",
+                "Africa",
+                "Europe"
+            ],
+            "answer": "Asia"
+        },
+        {
+            "question": "What is the currency of the USA?",
+            "options": [
+                "Dollar",
+                "Euro",
+                "Pound"
+            ],
+            "answer": "Dollar"
+        },
+        {
+            "question": "Which animal is known as the King of the Jungle?",
+            "options": [
+                "Lion",
+                "Tiger",
+                "Elephant"
+            ],
+            "answer": "Lion"
+        },
+        {
+            "question": "What is the largest desert?",
+            "options": [
+                "Sahara",
+                "Gobi",
+                "Kalahari"
+            ],
+            "answer": "Sahara"
+        },
+        {
+            "question": "What is the smallest prime number?",
+            "options": [
+                "2",
+                "1",
+                "3"
+            ],
+            "answer": "2"
+        },
+        {
+            "question": "What is the capital of France?",
+            "options": [
+                "Paris",
+                "Rome",
+                "Berlin"
+            ],
+            "answer": "Paris"
+        },
+        {
+            "question": "Which animal gives us wool?",
+            "options": [
+                "Sheep",
+                "Cow",
+                "Goat"
+            ],
+            "answer": "Sheep"
+        },
+        {
+            "question": "What is H2O?",
+            "options": [
+                "Water",
+                "Salt",
+                "Oxygen"
+            ],
+            "answer": "Water"
+        },
+        {
+            "question": "What is the longest river?",
+            "options": [
+                "Nile",
+                "Amazon",
+                "Yangtze"
+            ],
+            "answer": "Nile"
+        },
+        {
+            "question": "What is the freezing point of water?",
+            "options": [
+                "0\u00b0C",
+                "10\u00b0C",
+                "-10\u00b0C"
+            ],
+            "answer": "0\u00b0C"
+        },
+        {
+            "question": "Which metal is liquid at room temp?",
+            "options": [
+                "Mercury",
+                "Iron",
+                "Gold"
+            ],
+            "answer": "Mercury"
+        },
+        {
+            "question": "What is the square root of 81?",
+            "options": [
+                "9",
+                "8",
+                "7"
+            ],
+            "answer": "9"
+        },
+        {
+            "question": "Which bird cannot fly?",
+            "options": [
+                "Ostrich",
+                "Eagle",
+                "Parrot"
+            ],
+            "answer": "Ostrich"
+        }
+    ]
+}

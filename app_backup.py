@@ -227,6 +227,25 @@ def create_admin():
     db.session.commit()
 
     return "Admin user created! Email: admin@example.com Password: admin123"
+@app.route("/create-admin")
+def create_admin():
+    from werkzeug.security import generate_password_hash
+
+    email = "admin@example.com"
+    password = "admin123"
+
+    # Check if user already exists
+    existing = User.query.filter_by(email=email).first()
+    if existing:
+        return "Admin already exists!"
+
+    # Create new admin user
+    hashed = generate_password_hash(password)
+    new_user = User(email=email, password=hashed)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return "Admin user created! Email: admin@example.com Password: admin123"
 
 
 if __name__ == "__main__":

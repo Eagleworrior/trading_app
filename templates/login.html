@@ -1,92 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - EAGLEX</title>
+    <meta charset="UTF-8">
+    <title>EAGLEX Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
-            background:#050712;
-            font-family:'Segoe UI',sans-serif;
-            color:#e3e3e3;
-            margin:0;
-            padding:0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top, #0a0f24, #000);
+            font-family: 'Poppins', sans-serif;
+            color: white;
         }
-        .box {
-            max-width:420px;
-            margin:100px auto;
-            background:#0d0f17;
-            padding:25px;
-            border-radius:14px;
-            border:1px solid #1f2333;
-            box-shadow:0 0 25px rgba(0,0,0,0.7);
-            animation:fadeIn 0.6s ease;
+
+        .login-box {
+            width: 380px;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+            animation: glow 3s infinite alternate;
         }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 15px #00eaff; }
+            to   { box-shadow: 0 0 35px #00eaff; }
+        }
+
         h2 {
-            color:#00eaff;
-            text-shadow:0 0 10px rgba(0,238,255,0.6);
-            text-align:center;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #00eaff;
+            text-shadow: 0 0 10px #00eaff;
         }
+
         input {
-            width:100%;
-            padding:12px;
-            margin-top:10px;
-            border-radius:8px;
-            border:1px solid #2b3148;
-            background:#141722;
-            color:#e3e3e3;
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
         }
+
+        input:focus {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 10px #00eaff;
+        }
+
         button {
-            width:100%;
-            padding:12px;
-            margin-top:15px;
-            border:none;
-            border-radius:10px;
-            font-weight:bold;
-            cursor:pointer;
-            background:linear-gradient(90deg,#00ff88,#00cc66);
-            color:#000;
-            box-shadow:0 0 15px rgba(0,255,120,0.5);
-            transition:0.3s;
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00eaff, #0077ff);
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        button:hover { transform:scale(1.05); }
-        .flash {
-            background:#3b1f1f;
-            border:1px solid #ff4d4d;
-            color:#ffb3b3;
-            padding:10px;
-            border-radius:8px;
-            margin-bottom:10px;
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00eaff;
         }
-        @keyframes fadeIn {
-            from {opacity:0; transform:translateY(10px);}
-            to {opacity:1; transform:translateY(0);}
+
+        .links {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: #00eaff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .links a:hover {
+            text-shadow: 0 0 10px #00eaff;
         }
     </style>
 </head>
+
 <body>
 
-<div class="box">
-    <h2>EAGLEX Login</h2>
+    <div class="login-box">
+        <h2>EAGLEX LOGIN</h2>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+        <form method="POST">
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Password" required>
 
-    <form method="POST" action="{{ url_for('login') }}">
-        <label>Email</label>
-        <input type="email" name="email" required>
+            <button type="submit">Sign In</button>
+        </form>
 
-        <label>Password</label>
-        <input type="password" name="password" required>
-
-        <button type="submit">Login</button>
-    </form>
-</div>
+        <div class="links">
+            <p><a href="#">Forgot your password</a></p>
+            <p>Don't have an account? <a href="#">Register</a></p>
+        </div>
+    </div>
 
 </body>
 </html>
-
 

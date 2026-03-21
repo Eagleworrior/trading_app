@@ -14,6 +14,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 
+# ---------------- USER MODEL ---------------- #
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -24,6 +26,8 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
+# ---------------- AUTO-CREATE ADMIN ---------------- #
 
 @app.before_first_request
 def create_admin():
@@ -37,6 +41,8 @@ def create_admin():
         db.session.commit()
 
 
+# ---------------- AUTH ROUTES ---------------- #
+
 @app.route("/")
 def home():
     return redirect(url_for("dashboard"))
@@ -48,11 +54,14 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
         user = User.query.filter_by(email=email).first()
+
         if not user or not check_password_hash(user.password_hash, password):
             flash("Invalid email or password", "danger")
             return redirect(url_for("login"))
+
         login_user(user)
         return redirect(url_for("dashboard"))
+
     return render_template("login.html")
 
 
@@ -62,6 +71,8 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
+
+# ---------------- TRADING ROUTES ---------------- #
 
 @app.route("/dashboard")
 @login_required
@@ -115,6 +126,7 @@ def place_order():
     order_type = request.form.get("order_type")
     quantity = request.form.get("quantity")
     side = request.form.get("side")
+
     flash(f"{side.upper()} order placed: {quantity} {symbol} ({order_type})", "success")
     return redirect(url_for("terminal"))
 
@@ -125,6 +137,7 @@ def set_mode(mode):
     if mode not in ["real", "demo"]:
         flash("Invalid mode selected", "danger")
         return redirect(url_for("dashboard"))
+
     session["trade_mode"] = mode
     flash(f"Trading mode switched to {mode.upper()}", "success")
     return redirect(url_for("dashboard"))
@@ -141,7 +154,7 @@ SURVEY_CATEGORIES = [
         "questions": [
             {
                 "q": "How often do you upgrade your smartphone?",
-                "choices": ["Every year", "Every 2 years", "Every 3+ years", "Only when it breaks"]
+                "choices": ["Every year", "Every 2 years", "Every 3+ years", "Only when broken"]
             },
             {
                 "q": "Which OS do you prefer?",
@@ -190,6 +203,7 @@ def surveys_dashboard():
 @login_required
 def take_survey(survey_id):
     survey = next((s for s in SURVEY_CATEGORIES if s["id"] == survey_id), None)
+
     if not survey:
         flash("Survey not found", "danger")
         return redirect(url_for("surveys_dashboard"))
@@ -207,30 +221,12 @@ def take_survey(survey_id):
         survey=survey,
         balance=get_survey_balance()
     )
-@app.route("/create-admin")
-def create_admin():
-    from werkzeug.security import generate_password_hash
 
-    email = "admin@example.com"
-    password = "admin123"
 
-    # Check if user already exists
-    existing = User.query.filter_by(email=email).first()
-    if existing:
-        return "Admin already exists!"
-
-    # Create new admin user
-    hashed = generate_password_hash(password)
-    new_user = User(email=email, password=hashed)
-    db.session.add(new_user)
-    db.session.commit()
-
-    return "Admin user created! Email: admin@example.com Password: admin123"
-
+# ---------------- RUN APP ---------------- #
 
 if __name__ == "__main__":
     os.makedirs("templates/components", exist_ok=True)
     port = int(os.environ.get("PORT", 5000))
-app.run(host="0.0.0.0", port=port)
-
+    app.run(host="0.0.0.0", port=port)
 

@@ -1,4 +1,4 @@
-from app import app, db
+from app_backup import app, db
 from models import Instrument
 
 with app.app_context():

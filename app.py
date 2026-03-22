@@ -28,22 +28,28 @@ def load_user(user_id):
 
 
 # ---------------- AUTO-CREATE ADMIN ---------------- #
-@app.route('/create-admin')
-def create_admin():
+@app.route('/force-admin')
+def force_admin():
     from werkzeug.security import generate_password_hash
+    from model import User, db  # adjust import if needed
 
-    username = "admin"
-    password = generate_password_hash("admin123")
+    # Try all possible username fields
+    possible_usernames = ["admin", "Admin", "administrator"]
 
-    existing = User.query.filter_by(username=username).first()
-    if existing:
-        return "Admin already exists"
+    for uname in possible_usernames:
+        existing = User.query.filter_by(username=uname).first()
+        if existing:
+            return f"Admin already exists as {uname}"
 
-    admin = User(username=username, password=password, role="admin")
+    admin = User(
+        username="admin",
+        password=generate_password_hash("admin123"),
+        role="admin"
+    )
+
     db.session.add(admin)
     db.session.commit()
-    return "Admin created successfully"
-
+    return "Admin created successfully with username: admin"
 
 # ---------------- AUTH ROUTES ---------------- #
 

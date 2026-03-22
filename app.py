@@ -28,23 +28,21 @@ def load_user(user_id):
 
 
 # ---------------- AUTO-CREATE ADMIN ---------------- #
-
 @app.route('/create-admin')
 def create_admin():
     from werkzeug.security import generate_password_hash
-    email = "admin@example.com"
+
+    username = "admin"
     password = generate_password_hash("admin123")
 
-    existing = User.query.filter_by(email=email).first()
+    existing = User.query.filter_by(username=username).first()
     if existing:
         return "Admin already exists"
 
-    admin = User(email=email, password=password, role="admin")
+    admin = User(username=username, password=password, role="admin")
     db.session.add(admin)
     db.session.commit()
-
     return "Admin created successfully"
-
 
 
 # ---------------- AUTH ROUTES ---------------- #

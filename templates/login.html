@@ -1,120 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>EAGLEX Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Login - TradeApp</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at top, #0a0f24, #000);
-            font-family: 'Poppins', sans-serif;
-            color: white;
-        }
-
-        .login-box {
-            width: 380px;
-            padding: 40px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
-            animation: glow 3s infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 15px #00eaff; }
-            to   { box-shadow: 0 0 35px #00eaff; }
-        }
-
-        h2 {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: radial-gradient(circle at top, #1a2a6c, #000000 65%);
+            color: #ffffff;
             text-align: center;
-            margin-bottom: 25px;
-            font-size: 28px;
-            font-weight: 600;
-            color: #00eaff;
-            text-shadow: 0 0 10px #00eaff;
         }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 12px 0;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: 0.3s;
+        .glow-ring {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00ffcc55, transparent 60%);
+            top: -100px;
+            left: -80px;
+            filter: blur(2px);
+            z-index: -1;
         }
-
-        input:focus {
-            background: rgba(0, 255, 255, 0.2);
-            box-shadow: 0 0 10px #00eaff;
+        .glow-ring2 {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff00ff44, transparent 60%);
+            bottom: -150px;
+            right: -120px;
+            filter: blur(2px);
+            z-index: -1;
         }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(90deg, #00eaff, #0077ff);
-            color: #000;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+        .container {
+            margin-top: 80px;
         }
-
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #00eaff;
+        h1 {
+            font-size: 34px;
+            letter-spacing: 2px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc, 0 0 25px #ff00ff;
         }
-
-        .links {
-            margin-top: 15px;
-            text-align: center;
+        .subtitle {
             font-size: 14px;
+            color: #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
-
-        .links a {
-            color: #00eaff;
+        .card {
+            background: linear-gradient(145deg, #050816, #111827);
+            border-radius: 18px;
+            padding: 30px;
+            width: 360px;
+            margin: 25px auto;
+            box-shadow: 0 0 25px #00ffcc55, 0 0 40px #000000;
+            border: 1px solid #00ffcc55;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-left: 5%;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 6px 0 14px 0;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            outline: none;
+            background: #020617;
+            color: #e5e7eb;
+            box-shadow: inset 0 0 8px #000000aa;
+        }
+        input:focus {
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px #00ffcc66;
+        }
+        .btn {
+            margin-top: 5px;
+            width: 95%;
+            padding: 11px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(90deg, #ff00ff, #ffcc00, #00ffcc);
+            color: #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px #ff00ffaa;
+        }
+        .btn:hover {
+            box-shadow: 0 0 25px #00ffccaa;
+            transform: translateY(-1px);
+        }
+        a {
+            color: #ffcc00;
             text-decoration: none;
-            transition: 0.3s;
+            font-weight: 500;
         }
-
-        .links a:hover {
-            text-shadow: 0 0 10px #00eaff;
+        a:hover {
+            color: #00ffcc;
         }
     </style>
 </head>
-
 <body>
+    <div class="glow-ring"></div>
+    <div class="glow-ring2"></div>
 
-    <div class="login-box">
-        <h2>EAGLEX LOGIN</h2>
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div style="margin:20px auto; width:80%;">
+          {% for category, message in messages %}
+            <div style="
+                padding:15px;
+                margin-bottom:10px;
+                border-radius:10px;
+                font-weight:bold;
+                text-align:center;
+                color:white;
+                font-size:14px;
+                background:
+                  {% if category == 'success' %} linear-gradient(90deg,#00c853,#64dd17);
+                  {% elif category == 'danger' %} linear-gradient(90deg,#d50000,#ff1744);
+                  {% else %} linear-gradient(90deg,#2962ff,#00b0ff);
+                  {% endif %}
+                box-shadow:0 0 18px rgba(0,0,0,0.6);
+            ">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email Address" required>
-            <input type="password" name="password" placeholder="Password" required>
+    <div class="container">
+        <h1>🚀 TradeApp Login Portal 🚀</h1>
+        <div class="subtitle">Secure • Fast • Neon Powered</div>
 
-            <button type="submit">Sign In</button>
-        </form>
+        <div class="card">
+            <form method="POST">
+                <label for="email">EMAIL</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
 
-        <div class="links">
-            <p><a href="#">Forgot your password</a></p>
-            <p>Don't have an account? <a href="#">Register</a></p>
+                <label for="password">PASSWORD</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+                <button type="submit" class="btn">Enter Dashboard</button>
+            </form>
+            <p style="margin-top:18px; font-size:13px; color:#9ca3af;">
+                New to TradeApp?
+                <a href="{{ url_for('register') }}">Create your account</a>
+            </p>
         </div>
     </div>
-
 </body>
 </html>
 

@@ -9,6 +9,30 @@
     <button type="submit">Login</button>
   </form>
   <a href="/register">Create account</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="margin:20px auto; width:80%;">
+      {% for category, message in messages %}
+        <div style="
+            padding:15px;
+            margin-bottom:10px;
+            border-radius:8px;
+            font-weight:bold;
+            text-align:center;
+            color:white;
+            background:
+              {% if category == 'success' %} #00cc66;
+              {% elif category == 'danger' %} #ff0033;
+              {% else %} #0099ff;
+              {% endif %}
+        ">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
 </body>
 </html>
 

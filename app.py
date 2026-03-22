@@ -1,21 +1,37 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+# app.py
+# TradeApp — Neon Edition ✨
+
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import (
+    LoginManager, UserMixin, login_user,
+    login_required, logout_user, current_user
+)
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
+# ---------------------------------------------------
+# APP CONFIGURATION
+# ---------------------------------------------------
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'change_this_secret'
+app.config['SECRET_KEY'] = 'super_secret_key_change_this'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trading.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Fix session issues (important!)
+app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
 db = SQLAlchemy(app)
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+login_manager.login_message_category = "danger"
 
 
-# ---------------- USER MODEL ---------------- #
-
+# ---------------------------------------------------
+# USER MODEL
+# ---------------------------------------------------
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -27,216 +43,105 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-# ---------------- AUTO-CREATE ADMIN ---------------- #
-@app.route('/force-admin')
-def force_admin():
-    from werkzeug.security import generate_password_hash
-    from model import User, db  # adjust import if needed
+# ---------------------------------------------------
+# ROUTES
+# ---------------------------------------------------
 
-    # Try all possible username fields
-    possible_usernames = ["admin", "Admin", "administrator"]
-
-    for uname in possible_usernames:
-        existing = User.query.filter_by(username=uname).first()
-        if existing:
-            return f"Admin already exists as {uname}"
-
-    admin = User(
-        username="admin",
-        password=generate_password_hash("admin123"),
-        role="admin"
-    )
-
-    db.session.add(admin)
-    db.session.commit()
-    return "Admin created successfully with username: admin"
-
-# ---------------- AUTH ROUTES ---------------- #
-
-@app.route("/")
+@app.route('/')
 def home():
-    return redirect(url_for("dashboard"))
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
+# ---------------- REGISTER ---------------- #
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
+
+        if User.query.filter_by(email=email).first():
+            flash("❌ User already exists!", "danger")
+            return redirect(url_for("register"))
+
+        new_user = User(
+            email=email,
+            password_hash=generate_password_hash(password)
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash("✅ Registration successful! Please log in.", "success")
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+
+# ---------------- LOGIN ---------------- #
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get("email")
+        password = request.form.get("password")
+
         user = User.query.filter_by(email=email).first()
 
         if not user or not check_password_hash(user.password_hash, password):
-            flash("Invalid email or password", "danger")
+            flash("❌ Invalid email or password", "danger")
             return redirect(url_for("login"))
 
         login_user(user)
+        flash("🎉 Login successful!", "success")
         return redirect(url_for("dashboard"))
 
     return render_template("login.html")
 
 
-@app.route("/logout")
+# ---------------- LOGOUT ---------------- #
+@app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash("👋 Logged out successfully!", "info")
     return redirect(url_for("login"))
 
 
-# ---------------- TRADING ROUTES ---------------- #
-
-@app.route("/dashboard")
+# ---------------- DASHBOARD ---------------- #
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", user=current_user)
 
 
-@app.route("/wallet")
-@login_required
-def wallet():
-    return render_template("wallet.html")
+# ---------------- ADMIN CREATION ---------------- #
+@app.route('/create-admin')
+def create_admin():
+    existing = User.query.filter_by(email="admin@tradeapp.com").first()
+    if existing:
+        return "Admin already exists!"
 
-
-@app.route("/trade")
-@login_required
-def trade():
-    return render_template("trade.html")
-
-
-@app.route("/deposit")
-@login_required
-def deposit():
-    return render_template("deposit.html")
-
-
-@app.route("/withdraw", methods=["POST"])
-@login_required
-def withdraw():
-    amount = request.form.get("amount")
-    phone = request.form.get("phone")
-    flash(f"Withdraw request received: {amount} to {phone}", "info")
-    return redirect(url_for("wallet"))
-
-
-@app.route("/terminal")
-@login_required
-def terminal():
-    return render_template("terminal.html")
-
-
-@app.route("/market")
-@login_required
-def market():
-    return render_template("live_market.html")
-
-
-@app.route("/place_order", methods=["POST"])
-@login_required
-def place_order():
-    symbol = request.form.get("symbol")
-    order_type = request.form.get("order_type")
-    quantity = request.form.get("quantity")
-    side = request.form.get("side")
-
-    flash(f"{side.upper()} order placed: {quantity} {symbol} ({order_type})", "success")
-    return redirect(url_for("terminal"))
-
-
-@app.route("/set_mode/<mode>")
-@login_required
-def set_mode(mode):
-    if mode not in ["real", "demo"]:
-        flash("Invalid mode selected", "danger")
-        return redirect(url_for("dashboard"))
-
-    session["trade_mode"] = mode
-    flash(f"Trading mode switched to {mode.upper()}", "success")
-    return redirect(url_for("dashboard"))
-
-
-# ---------------- SURVEY SYSTEM ---------------- #
-
-SURVEY_CATEGORIES = [
-    {
-        "id": 1,
-        "title": "Tech & Gadgets",
-        "level": "Beginner",
-        "payout": 50,
-        "questions": [
-            {
-                "q": "How often do you upgrade your smartphone?",
-                "choices": ["Every year", "Every 2 years", "Every 3+ years", "Only when broken"]
-            },
-            {
-                "q": "Which OS do you prefer?",
-                "choices": ["Android", "iOS", "Windows", "Linux"]
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "title": "Finance & Investing",
-        "level": "Intermediate",
-        "payout": 120,
-        "questions": [
-            {
-                "q": "How would you describe your risk tolerance?",
-                "choices": ["Low", "Medium", "High", "Very high"]
-            },
-            {
-                "q": "What do you invest in most?",
-                "choices": ["Stocks", "Crypto", "Real estate", "I don't invest"]
-            }
-        ]
-    }
-]
-
-
-def get_survey_balance():
-    return session.get("survey_balance", 0)
-
-
-def add_survey_earnings(amount):
-    session["survey_balance"] = get_survey_balance() + amount
-
-
-@app.route("/surveys")
-@login_required
-def surveys_dashboard():
-    return render_template(
-        "surveys/dashboard.html",
-        surveys=SURVEY_CATEGORIES,
-        balance=get_survey_balance()
+    admin = User(
+        email="admin@tradeapp.com",
+        password_hash=generate_password_hash("admin123")
     )
+    db.session.add(admin)
+    db.session.commit()
+
+    return "Admin created successfully!"
 
 
-@app.route("/surveys/<int:survey_id>", methods=["GET", "POST"])
-@login_required
-def take_survey(survey_id):
-    survey = next((s for s in SURVEY_CATEGORIES if s["id"] == survey_id), None)
-
-    if not survey:
-        flash("Survey not found", "danger")
-        return redirect(url_for("surveys_dashboard"))
-
-    if request.method == "POST":
-        add_survey_earnings(survey["payout"])
-        return render_template(
-            "surveys/completed.html",
-            survey=survey,
-            balance=get_survey_balance()
-        )
-
-    return render_template(
-        "surveys/take.html",
-        survey=survey,
-        balance=get_survey_balance()
-    )
-
-
-# ---------------- RUN APP ---------------- #
-
+# ---------------------------------------------------
+# RUN APP
+# ---------------------------------------------------
 if __name__ == "__main__":
-    os.makedirs("templates/components", exist_ok=True)
+    print("\033[95m" + "═══════════════════════════════════════════════" + "\033[0m")
+    print("\033[96m" + "        🚀 TradeApp Neon Server Starting 🚀" + "\033[0m")
+    print("\033[92m" + "        ✔ Debug Mode: ON" + "\033[0m")
+    print("\033[94m" + "        ✔ Visit: http://127.0.0.1:5000" + "\033[0m")
+    print("\033[95m" + "═══════════════════════════════════════════════" + "\033[0m")
+
+    os.makedirs("templates", exist_ok=True)
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
 

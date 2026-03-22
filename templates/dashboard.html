@@ -1,39 +1,151 @@
-{% extends "base.html" %}
-{% block title %}Dashboard - EAGLEX{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - TradeApp</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: radial-gradient(circle at top, #141e30, #000000 65%);
+            color: #ffffff;
+            text-align: center;
+        }
+        .glow-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 10% 20%, #00ffcc22, transparent 60%),
+                radial-gradient(circle at 90% 80%, #ff00ff22, transparent 60%);
+            z-index: -1;
+        }
+        .header {
+            padding: 20px 10px 15px 10px;
+            background: linear-gradient(90deg, #00ffcc22, #ff00ff22);
+            box-shadow: 0 0 18px #00ffcc55;
+            border-bottom: 1px solid #1f2933;
+        }
+        h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffcc;
+        }
+        .sub {
+            color: #00ffcc;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+        .logout {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+        }
+        .logout a {
+            padding: 8px 15px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #ff0033, #ff9900);
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 0 12px #ff0033aa;
+        }
+        .logout a:hover {
+            box-shadow: 0 0 20px #ff9900aa;
+        }
+        .content {
+            margin-top: 40px;
+        }
+        .card-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            padding: 0 10px 40px 10px;
+        }
+        .card {
+            background: radial-gradient(circle at top, #020617, #020617 60%, #0b1120);
+            border-radius: 18px;
+            padding: 20px;
+            width: 260px;
+            box-shadow: 0 0 20px #00ffcc33;
+            border: 1px solid #1f2937;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #ffcc00;
+            text-shadow: 0 0 8px #ffcc00aa;
+        }
+        .card p {
+            font-size: 13px;
+        }
+        .accent-green { color: #00ffcc; }
+        .accent-yellow { color: #ffcc00; }
+        .accent-pink { color: #ff66ff; }
+    </style>
+</head>
+<body>
+    <div class="glow-bg"></div>
 
-{% block content %}
-<div class="panel">
-    <h1>EAGLEX Trading Dashboard</h1>
-    <span class="tag">Multi‑Asset • Real & Demo • Neon UI</span>
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div style="margin:20px auto; width:80%;">
+          {% for category, message in messages %}
+            <div style="
+                padding:15px;
+                margin-bottom:10px;
+                border-radius:10px;
+                font-weight:bold;
+                text-align:center;
+                color:white;
+                font-size:14px;
+                background:
+                  {% if category == 'success' %} linear-gradient(90deg,#00c853,#64dd17);
+                  {% elif category == 'danger' %} linear-gradient(90deg,#d50000,#ff1744);
+                  {% else %} linear-gradient(90deg,#2962ff,#00b0ff);
+                  {% endif %}
+                box-shadow:0 0 18px rgba(0,0,0,0.6);
+            ">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-    <p style="margin-top:18px; font-size:16px; color:#cfd3ff;">
-        Choose where you want to go:
-    </p>
-
-    <div style="margin-top:18px; display:flex; flex-wrap:wrap; gap:12px;">
-    <a class="btn btn-primary" href="{{ url_for('wallet') }}">💼 Wallet</a>
-    <a class="btn btn-secondary" href="{{ url_for('trade') }}">🎯 Trade</a>
-    <a class="btn btn-primary" href="{{ url_for('terminal') }}">📊 Terminal</a>
-    <a class="btn btn-secondary" href="{{ url_for('market') }}">📈 Live Market</a>
-
-    <!-- ⭐ NEW SURVEYS BUTTON -->
-    <a class="btn btn-primary" href="{{ url_for('surveys_dashboard') }}">📝 Surveys</a>
-</div>
-
-
-    <h2 style="margin-top:30px;">Trading Mode</h2>
-
-    <div style="display:flex; gap:12px; margin-top:12px;">
-        <a class="btn btn-primary" href="{{ url_for('set_mode', mode='real') }}">💵 Real Mode</a>
-        <a class="btn btn-secondary" href="{{ url_for('set_mode', mode='demo') }}">🎮 Demo Mode</a>
+    <div class="logout">
+        <a href="{{ url_for('logout') }}">Logout</a>
     </div>
 
-    <p style="margin-top:15px; font-size:18px; color:#00eaff;">
-        Current Mode:
-        <b style="color:#00ff88;">
-            {{ session.get('trade_mode', 'demo')|upper }}
-        </b>
-    </p>
-</div>
-{% endblock %}
+    <div class="header">
+        <h1>🎉 TradeApp Dashboard 🎉</h1>
+        <div class="sub">
+            Logged in as:
+            <span class="accent-green">{{ user.email }}</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="card-row">
+            <div class="card">
+                <h2>Demo Balance</h2>
+                <p class="accent-green">Neon trading simulator coming soon.</p>
+                <p style="font-size:12px; color:#9ca3af;">You’ll practice trades safely with animated charts and glowing P/L.</p>
+            </div>
+            <div class="card">
+                <h2>Surveys & Tasks</h2>
+                <p class="accent-yellow">High‑earning missions will appear here.</p>
+                <p style="font-size:12px; color:#9ca3af;">Daily tasks, levels, and streak bonuses in full neon style.</p>
+            </div>
+            <div class="card">
+                <h2>Stats & Levels</h2>
+                <p class="accent-pink">Track your growth visually.</p>
+                <p style="font-size:12px; color:#9ca3af;">XP bars, badges, and milestones with animated gradients.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 

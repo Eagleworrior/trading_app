@@ -1,17 +1,18 @@
-from app_backup import app, db
-from models import Instrument
+# init_db.py
+# Script to initialize the trading_app database with style ✨
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
+from app import app, db
 
-    # Add default instruments
-    btc = Instrument(symbol="BTCUSDT", name="Bitcoin / Tether", asset_class="crypto")
-    eth = Instrument(symbol="ETHUSDT", name="Ethereum / Tether", asset_class="crypto")
-    eurusd = Instrument(symbol="EURUSD", name="Euro / US Dollar", asset_class="forex")
+def init_database():
+    with app.app_context():
+        db.create_all()
+        print("\033[95m" + "═══════════════════════════════════════════════" + "\033[0m")
+        print("\033[96m" + "   🚀 TradeApp Database Initialization 🚀" + "\033[0m")
+        print("\033[92m" + "   ✅ trading.db created successfully!" + "\033[0m")
+        print("\033[93m" + "   📂 Location: ./trading_app/trading.db" + "\033[0m")
+        print("\033[94m" + "   🎉 You can now register and log in 🎉" + "\033[0m")
+        print("\033[95m" + "═══════════════════════════════════════════════" + "\033[0m")
 
-    db.session.add_all([btc, eth, eurusd])
-    db.session.commit()
-
-    print("Database initialized successfully!")
+if __name__ == "__main__":
+    init_database()
 

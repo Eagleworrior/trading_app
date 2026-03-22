@@ -29,16 +29,22 @@ def load_user(user_id):
 
 # ---------------- AUTO-CREATE ADMIN ---------------- #
 
-@app.before_first_request
+@app.route('/create-admin')
 def create_admin():
-    db.create_all()
-    if not User.query.filter_by(email="admin@example.com").first():
-        admin = User(
-            email="admin@example.com",
-            password_hash=generate_password_hash("admin123", method="pbkdf2:sha256")
-        )
-        db.session.add(admin)
-        db.session.commit()
+    from werkzeug.security import generate_password_hash
+    email = "admin@example.com"
+    password = generate_password_hash("admin123")
+
+    existing = User.query.filter_by(email=email).first()
+    if existing:
+        return "Admin already exists"
+
+    admin = User(email=email, password=password, role="admin")
+    db.session.add(admin)
+    db.session.commit()
+
+    return "Admin created successfully"
+
 
 
 # ---------------- AUTH ROUTES ---------------- #

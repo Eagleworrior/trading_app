@@ -378,6 +378,9 @@ def survey_question(level, qnum):
             q=q,
             level=level,
             qnum=qnum,
+_name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
             total=total,
             correct=is_correct,
             explanation=q.explanation

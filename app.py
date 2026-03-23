@@ -341,7 +341,11 @@ def survey_question(level, qnum):
             db.session.commit()
 
             next_level_num = level + 1
-            next_lvl = SurveyLevel.query.filter_by(level_number=next_level_num, user_id=current_user.id).first()
+            next_lvl = SurveyLevel.query.filter_by(
+                level_number=next_level_num,
+                user_id=current_user.id
+            ).first()
+
             if not next_lvl:
                 next_lvl = SurveyLevel(
                     level_number=next_level_num,
@@ -378,15 +382,13 @@ def survey_question(level, qnum):
             q=q,
             level=level,
             qnum=qnum,
-_name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
             total=total,
             correct=is_correct,
             explanation=q.explanation
         )
 
     progress = int((qnum - 1) / total * 100)
+
     return render_template(
         "surveys/question.html",
         q=q,
@@ -395,7 +397,6 @@ _name__ == "__main__":
         total=total,
         progress=progress
     )
-
 
 # ============================================================
 #   WITHDRAWAL PAGE (MIN 500 EUR)
@@ -430,6 +431,8 @@ def withdraw():
 # ============================================================
 
 if __name__ == "__main__":
+    import os
+
     print("\033[95m" + "═══════════════════════════════════════════════" + "\033[0m")
     print("\033[96m" + "        🚀 EAGLEX TRADING + AI SURVEYS 🚀" + "\033[0m")
     print("\033[92m" + "        ✔ Status: RUNNING" + "\033[0m")
@@ -438,5 +441,6 @@ if __name__ == "__main__":
     print("\033[91m" + "        ✔ Minimum Withdrawal: 500 EUR" + "\033[0m")
     print("\033[95m" + "═══════════════════════════════════════════════" + "\033[0m")
 
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port, debug=True)
 

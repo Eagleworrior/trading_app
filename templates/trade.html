@@ -4,6 +4,31 @@
 {% block content %}
 <div class="panel">
     <h2>🎯 Quick Trade</h2>
+<!-- NEON NAVIGATION BUTTONS -->
+<div style="margin-top:35px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+
+    <!-- Surveys Button -->
+    <a href="{{ url_for('surveys_dashboard') }}"
+       style="padding:14px 22px; border-radius:12px;
+              background:linear-gradient(90deg,#ff00ff,#00ffff);
+              color:#000; font-weight:bold; text-decoration:none;
+              box-shadow:0 0 22px #ff00ffaa, 0 0 12px #00ffffaa;
+              font-size:16px;">
+        📝 Surveys
+    </a>
+
+    <!-- Withdrawal Button -->
+    <a href="{{ url_for('withdraw') }}"
+       style="padding:14px 22px; border-radius:12px;
+              background:linear-gradient(90deg,#00ff88,#00aaff);
+              color:#000; font-weight:bold; text-decoration:none;
+              box-shadow:0 0 22px #00ff88aa, 0 0 12px #00aaffaa;
+              font-size:16px;">
+        💸 Withdraw
+    </a>
+
+</div>
+
 
     <p style="font-size:16px; color:#cfd3ff;">
         Visual demo of trade settings. Use the full terminal for chart view.
@@ -13,6 +38,26 @@
         Current Mode:
         <b style="color:#00ff88;">{{ session.get('trade_mode', 'demo')|upper }}</b>
     </p>
+<div style="margin-top:30px; display:flex; gap:15px; justify-content:center;">
+
+    <a href="{{ url_for('surveys_dashboard') }}"
+       style="padding:12px 20px; border-radius:10px;
+              background:linear-gradient(90deg,#ff00ff,#00ffff);
+              color:#000; font-weight:bold; text-decoration:none;
+              box-shadow:0 0 18px #ff00ffaa;">
+        📝 Surveys
+    </a>
+
+    <a href="{{ url_for('withdraw') }}"
+       style="padding:12px 20px; border-radius:10px;
+              background:linear-gradient(90deg,#00ff88,#00aaff);
+              color:#000; font-weight:bold; text-decoration:none;
+              box-shadow:0 0 18px #00ff88aa;">
+        💸 Withdraw
+    </a>
+
+</div>
+
 
     <p style="font-size:16px; color:#cfd3ff;">
         Demo Balance: <b style="color:#00eaff;">$10,000</b>
@@ -53,7 +98,8 @@
         <a class="btn" style="background:#22263a; color:#fff;" href="{{ url_for('terminal') }}">📊 Open Terminal</a>
     </div>
 
-    <a class="btn" style="background:#22263a; color:#fff; margin-top:20px;" href="{{ url_for('dashboard') }}">⬅ Back</a>
+    <a class="btn" style="background:#22263a; color:#fff; margin-top:20px;" href="{{ url_for('trade') }}"
+
 </div>
 {% endblock %}
 

@@ -86,6 +86,32 @@
     </style>
 </head>
 <body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="margin:20px auto; width:80%;">
+      {% for category, message in messages %}
+        <div style="
+            padding:15px;
+            margin-bottom:10px;
+            border-radius:10px;
+            font-weight:bold;
+            text-align:center;
+            color:white;
+            font-size:14px;
+            background:
+              {% if category == 'success' %} linear-gradient(90deg,#00c853,#64dd17);
+              {% elif category == 'danger' %} linear-gradient(90deg,#d50000,#ff1744);
+              {% else %} linear-gradient(90deg,#2962ff,#00b0ff);
+              {% endif %}
+            box-shadow:0 0 18px rgba(0,0,0,0.6);
+        ">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
     <div class="glow-bg"></div>
 
     <!-- FLASH MESSAGES -->
